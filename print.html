@@ -6,7 +6,6 @@
         <title></title>
         <meta name="robots" content="noindex" />
         <!-- Custom HTML head -->
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -29,13 +28,13 @@
     </head>
     <body>
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -51,7 +50,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -63,7 +62,7 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
             var sidebar = 'hidden';
             if (document.body.clientWidth >= 1080) {
@@ -76,7 +75,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">GraphQL.js</li><li class="chapter-item expanded "><a href="graphql/graphql.html"><strong aria-hidden="true">1.</strong> graphql</a></li><li class="chapter-item expanded "><a href="graphql/express.html"><strong aria-hidden="true">2.</strong> graphql-express</a></li><li class="chapter-item expanded "><a href="graphql/apollo.html"><strong aria-hidden="true">3.</strong> Apollo-Server</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">GraphQL.js</li><li class="chapter-item expanded "><a href="graphql/graphql.html"><strong aria-hidden="true">1.</strong> graphql</a></li><li class="chapter-item expanded "><a href="graphql/express.html"><strong aria-hidden="true">2.</strong> graphql-express</a></li><li class="chapter-item expanded "><a href="graphql/apollo.html"><strong aria-hidden="true">3.</strong> Apollo-Server</a></li><li class="chapter-item expanded affix "><li class="part-title">后台的技术依存关系</li><li class="chapter-item expanded "><a href="server/route.html"><strong aria-hidden="true">4.</strong> 服务器技术学习路径</a></li><li class="chapter-item expanded affix "><li class="part-title">TERRAFORM</li><li class="chapter-item expanded "><a href="terraform/install.html"><strong aria-hidden="true">5.</strong> Install Terraform & docker tutorial</a></li><li class="chapter-item expanded "><a href="terraform/buildAws.html"><strong aria-hidden="true">6.</strong> AWS Build Infrastructure</a></li><li class="chapter-item expanded "><a href="terraform/changeAws.html"><strong aria-hidden="true">7.</strong> AWS Change Infrastructure</a></li><li class="chapter-item expanded "><a href="terraform/destroyAws.html"><strong aria-hidden="true">8.</strong> AWS Destroy Infrastructure</a></li><li class="chapter-item expanded "><a href="terraform/variablesAws.html"><strong aria-hidden="true">9.</strong> AWS Define Input Variables</a></li><li class="chapter-item expanded affix "><li class="part-title">AWS</li><li class="chapter-item expanded "><a href="aws/installCli.html"><strong aria-hidden="true">10.</strong> Install AWS CLI</a></li><li class="chapter-item expanded affix "><li class="part-title">DOCKER</li><li class="chapter-item expanded affix "><li class="part-title">KUBERNETES</li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -94,7 +93,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -125,7 +124,7 @@
                     </div>
                 </div>
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -205,6 +204,174 @@ async function startApolloServer(typeDefs, resolvers) {
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
 }
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><p>后台的技术依存关系</p>
+<pre><code>Docker: https://www.docker.com/
+K8s: https://kubernetes.io/zh-cn/
+EKS: https://aws.amazon.com/cn/eks/?nc1=h_ls
+Terraform: https://developer.hashicorp.com/terraform/cli/commands
+Dashcomb terraform: https://github.com/dashcomb/dashcomb-terraform
+Dashcomb K8s: https://github.com/dashcomb/dashcomb-k8s
+Dashcomb EKS Instances: https://ap-northeast-1.console.aws.amazon.com/eks/home?region=ap-northeast-1#/clusters/dashcomb-beta-cluster?selectedTab=cluster-overview-tab
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="install-terraform"><a class="header" href="#install-terraform">Install Terraform</a></h1>
+<pre><code>brew tap hashicorp/tap
+brew install hashicorp/tap/terraform
+terraform --help
+terraform -help plan
+</code></pre>
+<h1 id="autocomplete"><a class="header" href="#autocomplete">Autocomplete</a></h1>
+<pre><code>touch ~/.bashrc
+terraform -install-autocomplete
+</code></pre>
+<h1 id="quick-start-tutorial"><a class="header" href="#quick-start-tutorial">Quick start tutorial</a></h1>
+<pre><code>open -a Docker
+</code></pre>
+<pre><code>mkdir learn-terraform-docker-container
+</code></pre>
+<pre><code>cd learn-terraform-docker-container
+</code></pre>
+<h2 id="create-maintf"><a class="header" href="#create-maintf">Create main.tf</a></h2>
+<pre><code>terraform {
+  required_providers {
+    docker = {
+      source  = &quot;kreuzwerker/docker&quot;
+      version = &quot;~&gt; 2.13.0&quot;
+    }
+  }
+}
+
+provider &quot;docker&quot; {}
+
+resource &quot;docker_image&quot; &quot;nginx&quot; {
+  name         = &quot;nginx:latest&quot;
+  keep_locally = false
+}
+
+resource &quot;docker_container&quot; &quot;nginx&quot; {
+  image = docker_image.nginx.latest
+  name  = &quot;tutorial&quot;
+  ports {
+    internal = 80
+    external = 8000
+  }
+}
+
+</code></pre>
+<pre><code>terraform init
+</code></pre>
+<pre><code>terraform apply
+</code></pre>
+<ul>
+<li><a href="http://localhost:8000">http://localhost:8000</a></li>
+</ul>
+<pre><code>terraform destroy
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="aws-build-infrastructure"><a class="header" href="#aws-build-infrastructure">AWS Build Infrastructure</a></h1>
+<ul>
+<li>Write configuration</li>
+</ul>
+<pre><code>mkdir learn-terraform-aws-instance
+</code></pre>
+<pre><code>cd learn-terraform-aws-instance
+</code></pre>
+<pre><code>touch main.tf
+
+terraform {
+  required_providers {
+    aws = {
+      source  = &quot;hashicorp/aws&quot;
+      version = &quot;~&gt; 4.16&quot;
+    }
+  }
+
+  required_version = &quot;&gt;= 1.2.0&quot;
+}
+
+provider &quot;aws&quot; {
+  region  = &quot;us-east-1&quot;
+}
+
+resource &quot;aws_instance&quot; &quot;app_server&quot; {
+  ami           = &quot;ami-830c94e3&quot;
+  instance_type = &quot;t2.micro&quot;
+
+  tags = {
+    Name = &quot;ExampleAppServerInstance&quot;
+  }
+}
+
+</code></pre>
+<pre><code>terraform init 
+</code></pre>
+<p>Format and validate the configuration</p>
+<pre><code>terraform fmt
+</code></pre>
+<pre><code>terraform validate
+</code></pre>
+<pre><code>terraform apply
+</code></pre>
+<pre><code>terraform plan
+</code></pre>
+<p>Inspect state</p>
+<pre><code>terraform show
+</code></pre>
+<ul>
+<li>手动管理状态</li>
+</ul>
+<pre><code>terraform state list
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="aws-change-infrastructure"><a class="header" href="#aws-change-infrastructure">AWS Change Infrastructure</a></h1>
+<pre><code>terraform {
+  required_providers {
+    aws = {
+      source  = &quot;hashicorp/aws&quot;
+      version = &quot;~&gt; 4.16&quot;
+    }
+  }
+
+  required_version = &quot;&gt;= 1.2.0&quot;
+}
+
+provider &quot;aws&quot; {
+  region  = &quot;us-east-1&quot;
+}
+
+resource &quot;aws_instance&quot; &quot;app_server&quot; {
+  ami           = &quot;ami-05723c3b9cf4bf4ff&quot;
+  instance_type = &quot;t1.micro&quot;
+
+  tags = {
+    Name = &quot;ExampleAppServerInstance&quot;
+  }
+}
+</code></pre>
+<pre><code>terraform init
+</code></pre>
+<pre><code>terraform apply
+</code></pre>
+<pre><code>resource &quot;aws_instance&quot; &quot;app_server&quot; {
+    -  ami           = &quot;ami-830c94e3&quot;
+    +  ami           = &quot;ami-08d70e59c07c61a3a&quot;
+    -  instance_type = &quot;t2.micro&quot;
+    +  instance_type = &quot;t1.micro&quot;
+ }
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="aws-destroy-infrastructure"><a class="header" href="#aws-destroy-infrastructure">AWS Destroy Infrastructure</a></h1>
+<pre><code>terraform destory
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="aws-define-input-variables"><a class="header" href="#aws-define-input-variables">AWS Define Input Variables</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="install-aws-cli"><a class="header" href="#install-aws-cli">Install AWS CLI</a></h1>
+<ul>
+<li>Install</li>
+</ul>
+<pre><code>brew install awscli
+</code></pre>
+<p><a href="https://formulae.brew.sh/formula/awscli">参考链接</a></p>
+<ul>
+<li>Configure</li>
+</ul>
+<pre><code>aws configure
+</code></pre>
 
                     </main>
 
@@ -220,18 +387,18 @@ async function startApolloServer(typeDefs, resolvers) {
 
         </div>
 
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script type="text/javascript">
+        <script>
         window.addEventListener('load', function() {
             window.setTimeout(window.print, 100);
         });

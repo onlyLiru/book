@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>graphql-express</title>
+        <title>AWS Build Infrastructure</title>
         <!-- Custom HTML head -->
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -74,7 +74,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">GraphQL.js</li><li class="chapter-item expanded "><a href="../graphql/graphql.html"><strong aria-hidden="true">1.</strong> graphql</a></li><li class="chapter-item expanded "><a href="../graphql/express.html" class="active"><strong aria-hidden="true">2.</strong> graphql-express</a></li><li class="chapter-item expanded "><a href="../graphql/apollo.html"><strong aria-hidden="true">3.</strong> Apollo-Server</a></li><li class="chapter-item expanded affix "><li class="part-title">后台的技术依存关系</li><li class="chapter-item expanded "><a href="../server/route.html"><strong aria-hidden="true">4.</strong> 服务器技术学习路径</a></li><li class="chapter-item expanded affix "><li class="part-title">TERRAFORM</li><li class="chapter-item expanded "><a href="../terraform/install.html"><strong aria-hidden="true">5.</strong> Install Terraform & docker tutorial</a></li><li class="chapter-item expanded "><a href="../terraform/buildAws.html"><strong aria-hidden="true">6.</strong> AWS Build Infrastructure</a></li><li class="chapter-item expanded "><a href="../terraform/changeAws.html"><strong aria-hidden="true">7.</strong> AWS Change Infrastructure</a></li><li class="chapter-item expanded "><a href="../terraform/destroyAws.html"><strong aria-hidden="true">8.</strong> AWS Destroy Infrastructure</a></li><li class="chapter-item expanded "><a href="../terraform/variablesAws.html"><strong aria-hidden="true">9.</strong> AWS Define Input Variables</a></li><li class="chapter-item expanded affix "><li class="part-title">AWS</li><li class="chapter-item expanded "><a href="../aws/installCli.html"><strong aria-hidden="true">10.</strong> Install AWS CLI</a></li><li class="chapter-item expanded affix "><li class="part-title">DOCKER</li><li class="chapter-item expanded affix "><li class="part-title">KUBERNETES</li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">GraphQL.js</li><li class="chapter-item expanded "><a href="../graphql/graphql.html"><strong aria-hidden="true">1.</strong> graphql</a></li><li class="chapter-item expanded "><a href="../graphql/express.html"><strong aria-hidden="true">2.</strong> graphql-express</a></li><li class="chapter-item expanded "><a href="../graphql/apollo.html"><strong aria-hidden="true">3.</strong> Apollo-Server</a></li><li class="chapter-item expanded affix "><li class="part-title">后台的技术依存关系</li><li class="chapter-item expanded "><a href="../server/route.html"><strong aria-hidden="true">4.</strong> 服务器技术学习路径</a></li><li class="chapter-item expanded affix "><li class="part-title">TERRAFORM</li><li class="chapter-item expanded "><a href="../terraform/install.html"><strong aria-hidden="true">5.</strong> Install Terraform & docker tutorial</a></li><li class="chapter-item expanded "><a href="../terraform/buildAws.html" class="active"><strong aria-hidden="true">6.</strong> AWS Build Infrastructure</a></li><li class="chapter-item expanded "><a href="../terraform/changeAws.html"><strong aria-hidden="true">7.</strong> AWS Change Infrastructure</a></li><li class="chapter-item expanded "><a href="../terraform/destroyAws.html"><strong aria-hidden="true">8.</strong> AWS Destroy Infrastructure</a></li><li class="chapter-item expanded "><a href="../terraform/variablesAws.html"><strong aria-hidden="true">9.</strong> AWS Define Input Variables</a></li><li class="chapter-item expanded affix "><li class="part-title">AWS</li><li class="chapter-item expanded "><a href="../aws/installCli.html"><strong aria-hidden="true">10.</strong> Install AWS CLI</a></li><li class="chapter-item expanded affix "><li class="part-title">DOCKER</li><li class="chapter-item expanded affix "><li class="part-title">KUBERNETES</li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -133,38 +133,69 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="graphql-express"><a class="header" href="#graphql-express">Graphql-Express</a></h1>
-<pre><code>npm install express express-graphql graphql
+                        <h1 id="aws-build-infrastructure"><a class="header" href="#aws-build-infrastructure">AWS Build Infrastructure</a></h1>
+<ul>
+<li>Write configuration</li>
+</ul>
+<pre><code>mkdir learn-terraform-aws-instance
 </code></pre>
-<pre><code>var express = require('express');
-var { graphqlHTTP } = require('express-graphql');
-var { buildSchema } = require('graphql');
+<pre><code>cd learn-terraform-aws-instance
+</code></pre>
+<pre><code>touch main.tf
 
-var schema = buildSchema(`
-  type Query {
-    hello: String
+terraform {
+  required_providers {
+    aws = {
+      source  = &quot;hashicorp/aws&quot;
+      version = &quot;~&gt; 4.16&quot;
+    }
   }
-`);
 
-var root = { hello: () =&gt; 'Hello world!' };
+  required_version = &quot;&gt;= 1.2.0&quot;
+}
 
-var app = express();
-app.use('/graphql', graphqlHTTP({
-  schema: schema,
-  rootValue: root,
-  graphiql: true,
-}));
-app.listen(4000, () =&gt; console.log('Now browse to localhost:4000/graphql'));
+provider &quot;aws&quot; {
+  region  = &quot;us-east-1&quot;
+}
+
+resource &quot;aws_instance&quot; &quot;app_server&quot; {
+  ami           = &quot;ami-830c94e3&quot;
+  instance_type = &quot;t2.micro&quot;
+
+  tags = {
+    Name = &quot;ExampleAppServerInstance&quot;
+  }
+}
+
+</code></pre>
+<pre><code>terraform init 
+</code></pre>
+<p>Format and validate the configuration</p>
+<pre><code>terraform fmt
+</code></pre>
+<pre><code>terraform validate
+</code></pre>
+<pre><code>terraform apply
+</code></pre>
+<pre><code>terraform plan
+</code></pre>
+<p>Inspect state</p>
+<pre><code>terraform show
+</code></pre>
+<ul>
+<li>手动管理状态</li>
+</ul>
+<pre><code>terraform state list
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../graphql/graphql.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../terraform/install.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="../graphql/apollo.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../terraform/changeAws.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -173,10 +204,10 @@ app.listen(4000, () =&gt; console.log('Now browse to localhost:4000/graphql'));
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../graphql/graphql.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../terraform/install.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="../graphql/apollo.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../terraform/changeAws.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
