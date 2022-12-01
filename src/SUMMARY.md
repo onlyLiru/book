@@ -14,6 +14,7 @@
 - [AWS Change Infrastructure](./terraform/changeAws.md)
 - [AWS Destroy Infrastructure](./terraform/destroyAws.md)
 - [AWS Define Input Variables](./terraform/variablesAws.md)
+- [AWS Query Data with Outputs](./terraform/output.md)
 # AWS
 - [Install AWS CLI](./aws/installCli.md)
 
