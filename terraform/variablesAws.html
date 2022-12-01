@@ -74,7 +74,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">GraphQL.js</li><li class="chapter-item expanded "><a href="../graphql/graphql.html"><strong aria-hidden="true">1.</strong> graphql</a></li><li class="chapter-item expanded "><a href="../graphql/express.html"><strong aria-hidden="true">2.</strong> graphql-express</a></li><li class="chapter-item expanded "><a href="../graphql/apollo.html"><strong aria-hidden="true">3.</strong> Apollo-Server</a></li><li class="chapter-item expanded affix "><li class="part-title">后台的技术依存关系</li><li class="chapter-item expanded "><a href="../server/route.html"><strong aria-hidden="true">4.</strong> 服务器技术学习路径</a></li><li class="chapter-item expanded affix "><li class="part-title">TERRAFORM</li><li class="chapter-item expanded "><a href="../terraform/install.html"><strong aria-hidden="true">5.</strong> Install Terraform & docker tutorial</a></li><li class="chapter-item expanded "><a href="../terraform/buildAws.html"><strong aria-hidden="true">6.</strong> AWS Build Infrastructure</a></li><li class="chapter-item expanded "><a href="../terraform/changeAws.html"><strong aria-hidden="true">7.</strong> AWS Change Infrastructure</a></li><li class="chapter-item expanded "><a href="../terraform/destroyAws.html"><strong aria-hidden="true">8.</strong> AWS Destroy Infrastructure</a></li><li class="chapter-item expanded "><a href="../terraform/variablesAws.html" class="active"><strong aria-hidden="true">9.</strong> AWS Define Input Variables</a></li><li class="chapter-item expanded affix "><li class="part-title">AWS</li><li class="chapter-item expanded "><a href="../aws/installCli.html"><strong aria-hidden="true">10.</strong> Install AWS CLI</a></li><li class="chapter-item expanded affix "><li class="part-title">DOCKER</li><li class="chapter-item expanded affix "><li class="part-title">KUBERNETES</li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><li class="part-title">GraphQL.js</li><li class="chapter-item expanded "><a href="../graphql/graphql.html"><strong aria-hidden="true">1.</strong> graphql</a></li><li class="chapter-item expanded "><a href="../graphql/express.html"><strong aria-hidden="true">2.</strong> graphql-express</a></li><li class="chapter-item expanded "><a href="../graphql/apollo.html"><strong aria-hidden="true">3.</strong> Apollo-Server</a></li><li class="chapter-item expanded affix "><li class="part-title">后台的技术依存关系</li><li class="chapter-item expanded "><a href="../server/route.html"><strong aria-hidden="true">4.</strong> 服务器技术学习路径</a></li><li class="chapter-item expanded affix "><li class="part-title">TERRAFORM</li><li class="chapter-item expanded "><a href="../terraform/install.html"><strong aria-hidden="true">5.</strong> Install Terraform & docker tutorial</a></li><li class="chapter-item expanded "><a href="../terraform/buildAws.html"><strong aria-hidden="true">6.</strong> AWS Build Infrastructure</a></li><li class="chapter-item expanded "><a href="../terraform/changeAws.html"><strong aria-hidden="true">7.</strong> AWS Change Infrastructure</a></li><li class="chapter-item expanded "><a href="../terraform/destroyAws.html"><strong aria-hidden="true">8.</strong> AWS Destroy Infrastructure</a></li><li class="chapter-item expanded "><a href="../terraform/variablesAws.html" class="active"><strong aria-hidden="true">9.</strong> AWS Define Input Variables</a></li><li class="chapter-item expanded "><a href="../terraform/output.html"><strong aria-hidden="true">10.</strong> AWS Query Data with Outputs</a></li><li class="chapter-item expanded affix "><li class="part-title">AWS</li><li class="chapter-item expanded "><a href="../aws/installCli.html"><strong aria-hidden="true">11.</strong> Install AWS CLI</a></li><li class="chapter-item expanded affix "><li class="part-title">DOCKER</li><li class="chapter-item expanded affix "><li class="part-title">KUBERNETES</li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -134,6 +134,51 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="aws-define-input-variables"><a class="header" href="#aws-define-input-variables">AWS Define Input Variables</a></h1>
+<ul>
+<li>main.tf</li>
+</ul>
+<pre><code>terraform {
+  required_providers {
+    aws = {
+      source  = &quot;hashicorp/aws&quot;
+      version = &quot;~&gt; 4.16&quot;
+    }
+  }
+
+  required_version = &quot;&gt;= 1.2.0&quot;
+}
+
+provider &quot;aws&quot; {
+  region  = &quot;us-east-1&quot;
+}
+
+resource &quot;aws_instance&quot; &quot;app_server&quot; {
+  ami           = &quot;ami-05723c3b9cf4bf4ff&quot;
+  instance_type = &quot;t1.micro&quot;
+
+  tags = {
+    Name = var.instance_name
+  }
+}
+</code></pre>
+<pre><code>tags = {
+    -    Name = &quot;ExampleAppServerInstance&quot;
+    +    Name = var.instance_name
+}
+</code></pre>
+<ul>
+<li>Set the instance name with a variable</li>
+</ul>
+<blockquote>
+<p>Create a new file called variables.tf with a block defining a new instance_name variable.</p>
+</blockquote>
+<pre><code>variable &quot;instance_name&quot; {
+    description = &quot;Value of the Name tag for the EC2 instance&quot;
+    type        = string
+    default     = &quot;ExampleAppServerInstance&quot;
+}
+
+</code></pre>
 
                     </main>
 
@@ -142,7 +187,7 @@
                             <a rel="prev" href="../terraform/destroyAws.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                            <a rel="next" href="../aws/installCli.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../terraform/output.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         <div style="clear: both"></div>
@@ -154,7 +199,7 @@
                     <a rel="prev" href="../terraform/destroyAws.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a rel="next" href="../aws/installCli.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../terraform/output.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
