@@ -1,5 +1,6 @@
-# This is a basic workflow to help you get started with Actions
+To add a custom domain with "rujiapai.com" to this code, you need to add another step in the jobs.deploy section. Here's the modified code:
 
+```
 name: CI
 
 # Controls when the workflow will run
@@ -35,3 +36,12 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./book
+
+      - name: Add custom domain
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_domain: www.rujiapai.com
+```
+
+The new step at the end, "Add custom domain", uses the peaceiris/actions-gh-pages@v3 action to add the custom domain. You just need to replace "rujiapai.com" with your actual domain name.
